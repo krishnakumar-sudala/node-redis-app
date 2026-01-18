@@ -22,7 +22,7 @@ jobs:
 
       - name: Update Helm values.yaml
         run: |
-          sed -i "s/tag: .*/tag: \"${{ github.sha }}\"/" charts/node-redis-app/values.yaml
+          sed -i "s/tag: .*/tag: \"${{ github.sha }}\"/" helm/node-redis-app/values.yaml
           git config user.name "CI Bot"
           git config user.email "ci@github.com"
           git commit -am "Update image tag to ${{ github.sha }}"
