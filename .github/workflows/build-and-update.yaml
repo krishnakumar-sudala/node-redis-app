@@ -1,0 +1,29 @@
+name: Build and Deploy Node + Redis
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Log in to GHCR
+        run: echo "${{ secrets.GHCR_PAT }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+      - name: Build and Push
+        run: |
+          IMAGE=ghcr.io/${{ github.repository }}:${{ github.sha }}
+          docker build -t $IMAGE .
+          docker push $IMAGE
+
+      - name: Update Helm values.yaml
+        run: |
+          sed -i "s/tag: .*/tag: \"${{ github.sha }}\"/" charts/node-redis-app/values.yaml
+          git config user.name "CI Bot"
+          git config user.email "ci@github.com"
+          git commit -am "Update image tag to ${{ github.sha }}"
+          git push
