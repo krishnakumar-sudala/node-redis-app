@@ -4,9 +4,30 @@ const app = express();
 app.use(express.json());
 
 const client = redis.createClient({
-  url: process.env.REDIS_URL || 'redis://redis-master:6379'
+  url: process.env.REDIS_URL || 'redis://redis-master:6379',
+  socket: {
+    reconnectStrategy: (retries) => {
+      console.log(`Redis reconnect attempt #${retries}`);
+      return Math.min(retries * 100, 3000); // retry with backoff
+    }
+  }
 });
-client.connect();
+
+// Prevent crashes on startup
+client.on('error', (err) => {
+  console.error('Redis Client Error', err);
+});
+
+// Connect with retry logic
+(async () => {
+  try {
+    await client.connect();
+    console.log("Connected to Redis");
+  } catch (err) {
+    console.error("Initial Redis connection failed", err);
+  }
+})();
+
 
 app.post('/set', async (req, res) => {
   const { key, value } = req.body;
@@ -20,3 +41,6 @@ app.get('/get/:key', async (req, res) => {
 });
 
 app.listen(3000, () => console.log('API running on port number 3000'));
+
+
+
