@@ -18,7 +18,7 @@ image:
   pullPolicy: IfNotPresent
 
 redis:
-  host: redis
+  host: redis-master
   port: 6379
 
 
