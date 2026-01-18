@@ -4,7 +4,7 @@ const app = express();
 app.use(express.json());
 
 const client = redis.createClient({
-  url: process.env.REDIS_URL || 'redis://redis:6379'
+  url: process.env.REDIS_URL || 'redis://redis-master:6379'
 });
 client.connect();
 
