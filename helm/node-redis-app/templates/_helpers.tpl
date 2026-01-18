@@ -46,9 +46,9 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 Selector labels
 */}}
 {{- define "node-redis-app.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "node-redis-app.name" . }}
-app.kubernetes.io/instance: {{ .Release.Name }}
+app: {{ include "node-redis-app.name" . }}
 {{- end }}
+
 
 {{/*
 Create the name of the service account to use
