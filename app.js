@@ -30,15 +30,27 @@ client.on('error', (err) => {
 
 
 app.post('/set', async (req, res) => {
-  const { key, value } = req.body;
-  await client.set(key, value);
-  res.send(`Stored ${key} = ${value}`);
+  try {
+    const { key, value } = req.body;
+    if (!key || !value) return res.status(400).send("key and value required");
+    await client.set(key, value);
+    res.send(`Stored ${key} = ${value}`);
+  } catch (err) {
+    console.error("Error in /set:", err);
+    res.status(500).send("Internal server error");
+  }
 });
 
 app.get('/get/:key', async (req, res) => {
-  const value = await client.get(req.params.key);
-  res.send(value ? `${req.params.key} = ${value}` : 'Key not found');
+  try {
+    const value = await client.get(req.params.key);
+    res.send(value ? `${req.params.key} = ${value}` : 'Key not found');
+  } catch (err) {
+    console.error("Error in /get:", err);
+    res.status(500).send("Internal server error");
+  }
 });
+
 
 app.listen(3000, "0.0.0.0", () => console.log("API running on port 3000"));
 
