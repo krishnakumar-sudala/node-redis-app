@@ -11,10 +11,10 @@ replicaCount: 1
   # This sets the pull policy for images.
   #pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  #tag: "9052213f18a1662bc35a07533dafa4688070f4f5"
+  #tag: "4aeb2d1dcc0e1af790d9a5888a27495ddfc04cbe"
 image:
   repository: ghcr.io/krishnakumar-sudala/node-redis-app
-  tag: "9052213f18a1662bc35a07533dafa4688070f4f5"
+  tag: "4aeb2d1dcc0e1af790d9a5888a27495ddfc04cbe"
   pullPolicy: IfNotPresent
 
 redis:
