@@ -24,5 +24,6 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: redis
-                  key: HN3ajAXaAW
+                  key: redis-password
+
 
