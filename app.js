@@ -40,7 +40,6 @@ app.get('/get/:key', async (req, res) => {
   res.send(value ? `${req.params.key} = ${value}` : 'Key not found');
 });
 
-app.listen(3000, () => console.log('API running on port number 3000'));
-
+app.listen(3000, "0.0.0.0", () => console.log("API running on port 3000"));
 
 
