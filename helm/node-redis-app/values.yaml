@@ -20,7 +20,12 @@ image:
 redis:
   host: redis-master
   port: 6379
-  
+
+architecture: standalone
+
+replica:
+  replicaCount: 0
+
 master:
   resources:
     requests:
