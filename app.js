@@ -4,14 +4,15 @@ const app = express();
 app.use(express.json());
 
 const client = redis.createClient({
-  url: process.env.REDIS_URL || 'redis://"HN3ajAXaAW"@redis-master:6379',
+  url: `redis://:${process.env.REDIS_PASSWORD}@redis-master:6379`,
   socket: {
     reconnectStrategy: (retries) => {
       console.log(`Redis reconnect attempt #${retries}`);
-      return Math.min(retries * 100, 3000); // retry with backoff
+      return Math.min(retries * 100, 3000);
     }
   }
 });
+
 
 // Prevent crashes on startup
 client.on('error', (err) => {
